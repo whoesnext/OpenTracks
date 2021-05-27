@@ -89,6 +89,12 @@ public abstract class BluetoothConnectionManager {
 
             // Register for updates.
             BluetoothGattDescriptor descriptor = characteristic.getDescriptor(BluetoothUtils.CLIENT_CHARACTERISTIC_CONFIG_UUID);
+            gatt.readDescriptor(descriptor);
+        }
+
+        @Override
+        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            super.onDescriptorRead(gatt, descriptor, status);
             if (descriptor == null) {
                 Log.e(TAG, "CLIENT_CHARACTERISTIC_CONFIG_UUID characteristic not available; cannot request notifications for changed data.");
                 return;
@@ -96,7 +102,6 @@ public abstract class BluetoothConnectionManager {
 
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
             gatt.writeDescriptor(descriptor);
-
         }
 
         @Override
