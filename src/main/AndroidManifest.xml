@@ -307,6 +307,7 @@ limitations under the License.
         <activity android:name=".io.file.exporter.ExportActivity" />
 
         <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".settings.SettingsCustomLayoutActivity" />
 
         <activity android:name=".ShowOnMapProxyActivity$KML">
             <intent-filter android:label="@string/open_track_as_KML">
