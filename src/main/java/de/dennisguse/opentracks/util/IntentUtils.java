@@ -37,6 +37,7 @@ import de.dennisguse.opentracks.content.data.Marker;
 import de.dennisguse.opentracks.content.data.Track;
 import de.dennisguse.opentracks.content.provider.ContentProviderUtils;
 import de.dennisguse.opentracks.content.provider.ShareContentProvider;
+import de.dennisguse.opentracks.io.file.TrackFileFormat;
 
 /**
  * Utilities for creating intents.
@@ -91,9 +92,13 @@ public class IntentUtils {
                 continue;
             }
 
-            Pair<Uri, String> uriAndMime = ShareContentProvider.createURI(trackId, track.getName(), PreferencesUtils.getExportTrackFileFormat(PreferencesUtils.getSharedPreferences(context), context));
-            uris.add(uriAndMime.first);
-            mime = uriAndMime.second;
+            Pair<Uri, String> uriTrackFile = ShareContentProvider.createURI(trackId, track.getName(), PreferencesUtils.getExportTrackFileFormat(PreferencesUtils.getSharedPreferences(context), context));
+            Pair<Uri, String> uriSharePicture = ShareContentProvider.createURI(trackId, track.getName(), TrackFileFormat.SHARE_PICTURE_PNG);
+
+            uris.add(uriTrackFile.first);
+            uris.add(uriSharePicture.first);
+
+            mime = uriTrackFile.second; //TODO Which mime type to use?
         }
         return new Intent(Intent.ACTION_SEND_MULTIPLE)
                 .setType(mime)
